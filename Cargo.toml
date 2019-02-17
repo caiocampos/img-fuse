@@ -1,8 +1,13 @@
 [package]
-name = "img-fuse"
+name = "img_fuse"
 version = "0.1.0"
 authors = ["Caio O Campos <caio.campos1204@gmail.com.br>"]
 edition = "2018"
 
 [dependencies]
+glob = "*"
 rand = "*"
+rayon = "*"
+serde = { version = "*", features = ["derive"] }
+serde_json = "*"
+image = "*"

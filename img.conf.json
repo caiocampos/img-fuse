@@ -1,3 +1,5 @@
 {
-    
+	"back_folder": "./img/",
+	"back_path": "",
+	"front_path": "./front.png"
 }
