@@ -1,18 +1,31 @@
-use rand::Rng;
+mod lib;
 
-mod conf;
-mod file;
+use lib::configuration::Conf;
+use lib::image::ImageInfo;
+use lib::image::SVG;
+use lib::template::process;
+
+use lib::constant::conf::CONF_FILE;
 
 fn main() {
-    let max = 1000;
-    let img_number = rand::thread_rng().gen_range(1, max);
-
-    let config = conf::load_conf();
-
-    println!("{:?}", config);
-
-    let list = file::list_images(&config.back_folder);
-    println!("{:?}", list);
-
-    println!("{}", img_number);
+    let config = Conf::load(CONF_FILE);
+    let front_img = ImageInfo::by_path(&config.front_path);
+    let back_img = match config.back_path.is_empty() {
+        true => ImageInfo::random(&config.back_folder),
+        _ => ImageInfo::by_folder_path(&config.back_folder, &config.back_path),
+    };
+    let images: Vec<&ImageInfo> = match (&back_img, &front_img) {
+        (Some(back), Some(front)) => vec![back, front],
+        (Some(back), None) => vec![back],
+        _ => Vec::new(),
+    };
+    match process(&config, &images) {
+        Ok(res) => {
+            let svg = SVG::from(&res);
+            if let Err(err) = svg.save_png(&config.output_path) {
+                panic!(err);
+            }
+        }
+        Err(err) => panic!(err),
+    }
 }

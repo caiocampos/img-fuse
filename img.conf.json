@@ -1,5 +1,8 @@
 {
-	"back_folder": "./img/",
+	"back_folder": "img",
 	"back_path": "",
-	"front_path": "./front.png"
+	"front_path": "front.png",
+	"output_path": "out.png",
+	"template_path": "pattern.svg",
+	"img_max_length": 1600
 }
