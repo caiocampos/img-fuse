@@ -23,7 +23,7 @@ impl ImageInfo {
         let img_number = match images.len() {
             0 => return None,
             1 => 0,
-            n => thread_rng().gen_range(0, n - 1),
+            n => thread_rng().gen_range(0, n),
         };
         Self::by_path(&images[img_number])
     }
