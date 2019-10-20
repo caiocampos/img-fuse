@@ -1,0 +1,16 @@
+os:
+  - linux
+
+language: rust
+
+rust:
+- nightly
+
+before_script:
+  - apt-get install cmake
+  - apt-get install libcairo2-dev
+
+script:
+  - cargo update
+  - cargo build
+  - cargo test
