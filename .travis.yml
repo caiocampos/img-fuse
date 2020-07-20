@@ -1,5 +1,5 @@
-os:
-  - linux
+os: linux
+dist: bionic
 
 language: rust
 cache: cargo
@@ -9,7 +9,11 @@ addons:
     update: true
     packages:
       - cmake
-      - clang
+      - clang-10
+      - lldb-10
+      - lld-10
+      - libc++-10-dev
+      - libc++abi-10-dev
 
 script:
   - cargo update
