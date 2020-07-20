@@ -4,8 +4,7 @@ use std::path::{Path, PathBuf, MAIN_SEPARATOR};
 use glob::{glob_with, GlobError};
 use image::image_dimensions;
 use rand::{thread_rng, Rng};
-use resvg::prelude::*;
-use resvg::Options as SvgOptions;
+use usvg::Options as SvgOptions;
 use usvg::Tree as SvgTree;
 
 use crate::lib::constant::img::OPT;
@@ -118,31 +117,30 @@ impl From<&[u8]> for SVG {
 
 impl SVG {
     pub fn save_png(&self, out: &str) -> Result<(), String> {
-        let (opt, rtree) = match self.config() {
-            Ok(config) => config,
+        let rtree = match self.load() {
+            Ok(tree) => tree,
             Err(err) => return Err(err),
         };
-        let backend = resvg::default_backend();
-        let mut img = backend.render_to_image(&rtree, &opt).unwrap();
-        if !img.save_png(Path::new(out)) {
-            return Err("Could not save image".into());
+        let img = resvg::render(&rtree, usvg::FitTo::Original, None).unwrap();
+        match img.save_png(Path::new(out)) {
+            Ok(_) => Ok(()),
+            Err(err) => Err(format!("Could not save image \nError: {}", err.to_string())),
         }
-        Ok(())
     }
 
-    fn config(&self) -> Result<(SvgOptions, SvgTree), String> {
+    fn load(&self) -> Result<SvgTree, String> {
         let mut opt = SvgOptions::default();
         let res = match self {
-            SVG::Str(origin) => SvgTree::from_str(origin, &opt.usvg),
+            SVG::Str(origin) => SvgTree::from_str(origin, &opt),
             SVG::File(origin) => {
-                opt.usvg.path = Some(origin.into());
-                SvgTree::from_file(origin, &opt.usvg)
+                opt.path = Some(origin.into());
+                SvgTree::from_file(origin, &opt)
             }
-            SVG::Data(origin) => SvgTree::from_data(origin, &opt.usvg),
+            SVG::Data(origin) => SvgTree::from_data(origin, &opt),
         };
         match res {
-            Ok(tree) => Ok((opt, tree)),
-            Err(err) => Err(err.to_string()),
+            Ok(tree) => Ok(tree),
+            Err(err) => Err(format!("Could not load image \nError: {}", err.to_string())),
         }
     }
 }

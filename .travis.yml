@@ -2,19 +2,16 @@ os:
   - linux
 
 language: rust
+cache: cargo
 
 addons:
   apt:
+    update: true
     packages:
       - cmake
-
-rust:
-- nightly
-
-before_install:
-  - sudo apt-get install -y libcairo2-dev
+      - clang
 
 script:
   - cargo update
-  - cargo build
+  - cargo build --release
   - cargo test

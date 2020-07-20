@@ -1,6 +1,5 @@
 use std::cmp::Ordering;
 use std::collections::BTreeMap;
-use std::error::Error;
 
 use handlebars::Handlebars;
 
@@ -13,7 +12,7 @@ pub fn process(conf: &Conf, images: &[&ImageInfo]) -> Result<String, String> {
     }
     let (mut handlebars, template) = (Handlebars::new(), "img");
     if let Err(err) = handlebars.register_template_file(template, conf.template_path.clone()) {
-        return Err(err.description().into());
+        return Err(err.to_string());
     }
     let (width, height) = to_target_length(images[0].width, images[0].height, conf.img_max_length);
     let mut data: BTreeMap<String, String> = BTreeMap::new();
