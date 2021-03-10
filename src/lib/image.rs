@@ -6,6 +6,7 @@ use image::image_dimensions;
 use rand::{thread_rng, Rng};
 use usvg::Options as SvgOptions;
 use usvg::Tree as SvgTree;
+use tiny_skia::Pixmap;
 
 use crate::lib::constant::img::OPT;
 
@@ -121,8 +122,10 @@ impl SVG {
             Ok(tree) => tree,
             Err(err) => return Err(err),
         };
-        let img = resvg::render(&rtree, usvg::FitTo::Original, None).unwrap();
-        match img.save_png(Path::new(out)) {
+        let pixmap_size = rtree.svg_node().size.to_screen_size();
+        let mut pixmap = Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
+        resvg::render(&rtree, usvg::FitTo::Original, pixmap.as_mut()).unwrap();
+        match pixmap.save_png(Path::new(out)) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Could not save image \nError: {}", err.to_string())),
         }
@@ -133,7 +136,7 @@ impl SVG {
         let res = match self {
             SVG::Str(origin) => SvgTree::from_str(origin, &opt),
             SVG::File(origin) => {
-                opt.path = Some(origin.into());
+                opt.resources_dir = Some(origin.into());
                 SvgTree::from_file(origin, &opt)
             }
             SVG::Data(origin) => SvgTree::from_data(origin, &opt),
