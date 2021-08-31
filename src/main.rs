@@ -23,9 +23,9 @@ fn main() {
         Ok(res) => {
             let svg = SVG::from(&res);
             if let Err(err) = svg.save_png(&config.output_path) {
-                panic!(err);
+                panic!("{}", err);
             }
         }
-        Err(err) => panic!(err),
+        Err(err) => panic!("{}", err),
     }
 }
