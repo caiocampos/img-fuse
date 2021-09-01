@@ -134,12 +134,12 @@ impl SVG {
     fn load(&self) -> Result<SvgTree, String> {
         let opt = SvgOptions::default();
         let res = match self {
-            SVG::Str(origin) => SvgTree::from_str(origin, &opt),
+            SVG::Str(origin) => SvgTree::from_str(origin, &opt.to_ref()),
             SVG::File(origin) => {
                 let svg_data = std::fs::read(&origin).unwrap();
-                SvgTree::from_data(&svg_data, &opt)
+                SvgTree::from_data(&svg_data, &opt.to_ref())
             }
-            SVG::Data(origin) => SvgTree::from_data(origin, &opt),
+            SVG::Data(origin) => SvgTree::from_data(origin, &opt.to_ref()),
         };
         match res {
             Ok(tree) => Ok(tree),

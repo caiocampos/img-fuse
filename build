@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo linux build
+cargo build --release --target=x86_64-unknown-linux-gnu
+
+echo windows build
+cargo build --release --target=x86_64-pc-windows-gnu
