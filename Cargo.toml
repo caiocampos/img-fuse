@@ -12,5 +12,5 @@ serde_json = "1.0.60"
 image = "0.23.12"
 resvg = "0.16.0"
 tiny-skia = "0.6.1"
-usvg = { version = "0.16", default-features = false }
+usvg = { version = "0.19", default-features = false }
 handlebars = "4.0.0"
