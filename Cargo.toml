@@ -10,7 +10,7 @@ rand = "0.8.0"
 serde = { version = "1.0.118", features = ["derive"] }
 serde_json = "1.0.69"
 image = "0.24.0"
-resvg = "0.19.0"
+resvg = "0.21.0"
 tiny-skia = "0.6.1"
 usvg = { version = "0.19", default-features = false }
 handlebars = "4.1.4"
