@@ -1,12 +1,13 @@
-use std::ffi::OsStr;
-use std::path::{Path, PathBuf, MAIN_SEPARATOR};
+use std::{
+    ffi::OsStr,
+    path::{Path, PathBuf, MAIN_SEPARATOR},
+};
 
 use glob::{glob_with, GlobError};
 use image::image_dimensions;
 use rand::{thread_rng, Rng};
-use usvg::Options as SvgOptions;
-use usvg::Tree as SvgTree;
 use tiny_skia::Pixmap;
+use usvg::{Options as SvgOptions, Tree as SvgTree};
 
 use crate::lib::constant::img::OPT;
 
@@ -124,7 +125,13 @@ impl SVG {
         };
         let pixmap_size = rtree.svg_node().size.to_screen_size();
         let mut pixmap = Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
-        resvg::render(&rtree, usvg::FitTo::Original, tiny_skia::Transform::default(), pixmap.as_mut()).unwrap();
+        resvg::render(
+            &rtree,
+            usvg::FitTo::Original,
+            tiny_skia::Transform::default(),
+            pixmap.as_mut(),
+        )
+        .unwrap();
         match pixmap.save_png(Path::new(out)) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Could not save image \nError: {}", err.to_string())),

@@ -1,10 +1,9 @@
-use std::fs::File;
-use std::io::BufReader;
+use std::{fs::File, io::BufReader};
 
 use serde::{Deserialize, Serialize};
 use serde_json::from_reader as read_json;
 
-use crate::lib::constant::conf::*;
+use super::constant::conf::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Conf {

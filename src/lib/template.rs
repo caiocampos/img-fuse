@@ -1,10 +1,8 @@
-use std::cmp::Ordering;
-use std::collections::BTreeMap;
+use std::{cmp::Ordering, collections::BTreeMap};
 
 use handlebars::Handlebars;
 
-use crate::lib::configuration::Conf;
-use crate::lib::image::ImageInfo;
+use super::{configuration::Conf, image::ImageInfo};
 
 pub fn process(conf: &Conf, images: &[&ImageInfo]) -> Result<String, String> {
     if images.is_empty() {
