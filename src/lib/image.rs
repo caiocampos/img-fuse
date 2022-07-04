@@ -6,10 +6,10 @@ use std::{
 use glob::{glob_with, GlobError};
 use image::image_dimensions;
 use rand::{thread_rng, Rng};
-use tiny_skia::Pixmap;
+use tiny_skia::{Pixmap, Transform};
 use usvg::{Options as SvgOptions, Tree as SvgTree};
 
-use crate::lib::constant::img::OPT;
+use super::constant::img::OPT;
 
 #[derive(Debug)]
 pub struct ImageInfo {
@@ -128,7 +128,7 @@ impl SVG {
         resvg::render(
             &rtree,
             usvg::FitTo::Original,
-            tiny_skia::Transform::default(),
+            Transform::default(),
             pixmap.as_mut(),
         )
         .unwrap();
