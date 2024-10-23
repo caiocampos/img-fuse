@@ -123,15 +123,13 @@ impl SVG {
             Ok(tree) => tree,
             Err(err) => return Err(err),
         };
-        let pixmap_size = rtree.svg_node().size.to_screen_size();
+        let pixmap_size = rtree.size().to_int_size();
         let mut pixmap = Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
         resvg::render(
             &rtree,
-            usvg::FitTo::Original,
             Transform::default(),
-            pixmap.as_mut(),
-        )
-        .unwrap();
+            &mut pixmap.as_mut(),
+        );
         match pixmap.save_png(Path::new(out)) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Could not save image \nError: {}", err.to_string())),
@@ -141,12 +139,12 @@ impl SVG {
     fn load(&self) -> Result<SvgTree, String> {
         let opt = SvgOptions::default();
         let res = match self {
-            SVG::Str(origin) => SvgTree::from_str(origin, &opt.to_ref()),
+            SVG::Str(origin) => SvgTree::from_str(origin, &opt),
             SVG::File(origin) => {
                 let svg_data = std::fs::read(&origin).unwrap();
-                SvgTree::from_data(&svg_data, &opt.to_ref())
+                SvgTree::from_data(&svg_data, &opt)
             }
-            SVG::Data(origin) => SvgTree::from_data(origin, &opt.to_ref()),
+            SVG::Data(origin) => SvgTree::from_data(origin, &opt),
         };
         match res {
             Ok(tree) => Ok(tree),

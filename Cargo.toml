@@ -1,16 +1,20 @@
 [package]
-name = "img-fuse"
+name = "img_fuse"
 version = "0.2.0"
 authors = ["Caio O Campos <caio.campos1204@gmail.com.br>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-glob = "^0.3.0"
-rand = "^0.8.5"
-serde = { version = "^1.0.138", features = ["derive"] }
-serde_json = "^1.0.82"
-image = "^0.24.2"
-resvg = "^0.23.0"
-tiny-skia = "^0.9.0"
-usvg = { version = "^0.23.0", default-features = false }
-handlebars = "^4.3.1"
+handlebars = "^6.1"
+glob = "^0.3"
+rand = "^0.8"
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+image = "^0.25"
+resvg = "^0.44"
+tiny-skia = "^0.11"
+usvg = { version = "^0.44", default-features = false }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "./src/lib/mod.rs"

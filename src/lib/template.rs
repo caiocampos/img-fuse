@@ -21,7 +21,7 @@ pub fn process(conf: &Conf, images: &[&ImageInfo]) -> Result<String, String> {
     data.insert("height".into(), height.to_string());
     match handlebars.render(template, &data) {
         Ok(res) => Ok(res),
-        Err(err) => Err(err.desc),
+        Err(err) => Err(err.to_string()),
     }
 }
 
