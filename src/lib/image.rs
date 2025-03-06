@@ -3,9 +3,10 @@ use std::{
     path::{Path, PathBuf, MAIN_SEPARATOR},
 };
 
+use rand::prelude::*;
+
 use glob::{glob_with, GlobError};
 use image::image_dimensions;
-use rand::{thread_rng, Rng};
 use tiny_skia::{Pixmap, Transform};
 use usvg::{Options as SvgOptions, Tree as SvgTree};
 
@@ -24,7 +25,7 @@ impl ImageInfo {
         let img_number = match images.len() {
             0 => return None,
             1 => 0,
-            n => thread_rng().gen_range(0..n),
+            n => rand::rng().random_range(0..n),
         };
         Self::by_path(&images[img_number])
     }
@@ -125,11 +126,7 @@ impl SVG {
         };
         let pixmap_size = rtree.size().to_int_size();
         let mut pixmap = Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
-        resvg::render(
-            &rtree,
-            Transform::default(),
-            &mut pixmap.as_mut(),
-        );
+        resvg::render(&rtree, Transform::default(), &mut pixmap.as_mut());
         match pixmap.save_png(Path::new(out)) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Could not save image \nError: {}", err.to_string())),
