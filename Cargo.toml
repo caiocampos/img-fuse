@@ -2,18 +2,18 @@
 name = "img_fuse"
 version = "0.2.0"
 authors = ["Caio O Campos <caio.campos1204@gmail.com.br>"]
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-handlebars = "^6.1"
+handlebars = "^6.4"
 glob = "^0.3"
 rand = "^0.10"
 serde = { version = "^1.0", features = ["derive"] }
 serde_json = "^1.0"
 image = "^0.25"
-resvg = "^0.45"
-tiny-skia = "^0.11"
-usvg = { version = "^0.45", default-features = false }
+resvg = "^0.47"
+tiny-skia = "^0.12"
+usvg = { version = "^0.47", default-features = false }
 
 [lib]
 crate-type = ["cdylib", "rlib"]
